@@ -1,29 +1,6 @@
 #:import main main
 #:import lexers pygments.lexers
 
-<ShaderToy>:
-    orientation: 'vertical'
-    ActionBar:
-    FloatLayout:
-        ShaderDisplay:
-            id: shaderdisplay
-            size_hint: 1, 1
-            fs: main.tunnel_shader
-        EditBox:
-            id: editbox
-            slider_opacity: slider.value
-            size_hint: 0.8, 0.8
-            pos_hint: {'x': 0.1, 'y': 0.1}
-            on_fs_text: shaderdisplay.fs = self.fs_text
-        Slider:
-            id: slider
-            min: 0.0
-            max: 1.0
-            value: 0.5
-            size_hint: None, 1
-            width: sp(20)
-            pos_hint: {'right': 0.99}
-            orientation: 'vertical'
 
 <EditBox>:
     orientation: 'vertical'
@@ -52,3 +29,27 @@
         Rectangle:
             pos: self.pos
             size: self.size
+
+<ShaderToy>:
+    orientation: 'vertical'
+    ActionBar:
+    FloatLayout:
+        ShaderDisplay:
+            id: shaderdisplay
+            size_hint: 1, 1
+            fs: main.tunnel_shader
+        EditBox:
+            id: editbox
+            slider_opacity: slider.value
+            size_hint: 0.88, 0.88
+            pos_hint: {'x': 0.06, 'y': 0.06}
+            on_fs_text: shaderdisplay.fs = self.fs_text
+        Slider:
+            id: slider
+            min: 0.0
+            max: 1.0
+            value: 0.9
+            size_hint: None, 1
+            width: sp(20)
+            pos_hint: {'right': 0.99}
+            orientation: 'vertical'

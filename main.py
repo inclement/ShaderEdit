@@ -30,29 +30,10 @@ shader_uniforms = '''
 uniform vec2 resolution;
 uniform float time;
 uniform vec2 touch;
-'''
-shader_top = '''
-vec3 hsv2rgb(vec3 c)
-{
-    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
-    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
-}
-
-void main(void)
-{
-   float x = gl_FragCoord.x;
-   float y = gl_FragCoord.y;
-
-   float resx = 0.0;
-   float resy = 0.0;
-   float max_intensity = 1.0;
+uniform vec2 mouse;
 '''
 
-tunnel_shader = header + '''
-uniform float time;
-uniform vec2 touch;
-uniform vec2 resolution;
+tunnel_shader = header + shader_uniforms + '''
 
 vec3 check(vec2 p, float s)
 {
@@ -81,10 +62,7 @@ void main( void ) {
 }
 '''
 
-plasma_shader = header + '''
-uniform vec2 resolution;
-uniform float time;
-uniform vec2 touch;
+plasma_shader = header + shader_uniforms + '''
 
 void main(void)
 {
@@ -108,6 +86,7 @@ class ShaderDisplay(ShaderWidget):
         tx = float((touch.x - self.x) / self.width)
         ty = float((touch.y - self.y) / self.width)
         self.canvas['touch'] = [tx, ty]
+        self.canvas['mouse'] = [tx, ty]
 
 class ShaderToy(BoxLayout):
     pass
