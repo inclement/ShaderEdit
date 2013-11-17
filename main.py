@@ -111,9 +111,13 @@ class ShaderActionBar(ActionBar):
 
 class ShaderApp(App):
     shaderdisplay = ObjectProperty()
+
     def build(self):
         toy = ShaderToy()
         return toy
+
+    def on_pause(self):
+        return True
 
 
 if __name__ == "__main__":
