@@ -4,6 +4,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
+from kivy.uix.actionbar import ActionBar
 from kivy.core.window import Window
 from kivy.graphics import RenderContext
 from kivy.properties import (StringProperty, ListProperty, ObjectProperty,
@@ -89,16 +90,19 @@ class ShaderDisplay(ShaderWidget):
         self.canvas['mouse'] = [tx, ty]
 
 class ShaderToy(BoxLayout):
-    pass
+    actionbar = ObjectProperty()
 
 class EditBox(BoxLayout):
     slider_opacity = NumericProperty()
 
+class ShaderActionBar(ActionBar):
+    pass
+
 class ShaderApp(App):
     shaderdisplay = ObjectProperty()
     def build(self):
-
-        return ShaderToy()
+        toy = ShaderToy()
+        return toy
 
 if __name__ == "__main__":
     ShaderApp().run()

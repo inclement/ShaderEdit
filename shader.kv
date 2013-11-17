@@ -21,6 +21,8 @@
         text: main.tunnel_shader
         background_color: 1, 1, 1, root.slider_opacity
         lexer: lexers.GLShaderLexer()
+        padding: sp(10)
+        font_name: 'DroidSansMono.ttf'
 
 <ShaderWidget>:
     canvas:
@@ -32,7 +34,9 @@
 
 <ShaderToy>:
     orientation: 'vertical'
-    ActionBar:
+    actionbar: actionbar
+    ShaderActionBar:
+        id: actionbar
     FloatLayout:
         ShaderDisplay:
             id: shaderdisplay
@@ -53,3 +57,15 @@
             width: sp(20)
             pos_hint: {'right': 0.99}
             orientation: 'vertical'
+
+<ShaderActionBar>:
+    height: sp(40)
+    ActionView:
+        use_separator: True
+        ActionPrevious:
+            title: 'Shader Edit'
+        ActionOverflow:
+        ActionButton:
+            text: 'Save'
+        ActionButton:
+            text: 'Save As...'
