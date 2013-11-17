@@ -5,6 +5,8 @@
 <EditBox>:
     orientation: 'vertical'
     fs_text: ti.text
+    pos_hint: {'x': 0.06, 'y': self.height_pos_hint}
+    size_hint: 0.88, 0.88
     Label:
         canvas:
             Color:
@@ -21,8 +23,10 @@
         text: main.tunnel_shader
         background_color: 1, 1, 1, root.slider_opacity
         lexer: lexers.GLShaderLexer()
-        padding: sp(10)
+        padding_x: sp(10)
+        padding_y: sp(0)
         font_name: 'DroidSansMono.ttf'
+        on_focus: root.keyboard_response(self.focus)
 
 <ShaderWidget>:
     canvas:
@@ -45,8 +49,6 @@
         EditBox:
             id: editbox
             slider_opacity: slider.value
-            size_hint: 0.88, 0.88
-            pos_hint: {'x': 0.06, 'y': 0.06}
             on_fs_text: shaderdisplay.fs = self.fs_text
         Slider:
             id: slider
@@ -64,6 +66,8 @@
         use_separator: True
         ActionPrevious:
             title: 'Shader Edit'
+            with_previous: False
+        ActionSeparator:
         ActionOverflow:
         ActionButton:
             text: 'Save'

@@ -7,6 +7,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.actionbar import ActionBar
 from kivy.core.window import Window
 from kivy.graphics import RenderContext
+from kivy.animation import Animation
 from kivy.properties import (StringProperty, ListProperty, ObjectProperty,
                              NumericProperty, ReferenceListProperty,
                              BooleanProperty)
@@ -94,6 +95,16 @@ class ShaderToy(BoxLayout):
 
 class EditBox(BoxLayout):
     slider_opacity = NumericProperty()
+    height_pos_hint = NumericProperty(0.06)
+
+    def keyboard_response(self, keyboard_open):
+        if keyboard_open:
+            animation = Animation(height_pos_hint=0.5, size_hint_y=0.5,
+                                  duration=0.2, t='out_cubic')
+        else:
+            animation = Animation(height_pos_hint=0.1, size_hint_y=0.8,
+                                  duration=0.2, t='out_cubic')
+        animation.start(self)
 
 class ShaderActionBar(ActionBar):
     pass
@@ -103,6 +114,7 @@ class ShaderApp(App):
     def build(self):
         toy = ShaderToy()
         return toy
+
 
 if __name__ == "__main__":
     ShaderApp().run()
