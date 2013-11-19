@@ -88,6 +88,10 @@ void main(void)
 }
 '''
 
+class Preview(FloatLayout):
+    fs = StringProperty(plasma_shader)
+    text = StringProperty('some text')
+
 class ShaderDisplay(ShaderWidget):
     def on_touch_down(self, touch):
         self.touch = touch

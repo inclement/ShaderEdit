@@ -1,9 +1,38 @@
 #:import main main
 #:import lexers pygments.lexers
 
+<Preview>:
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint: 0.9, 0.9
+        pos_hint: {'x': 0.05, 'y': 0.05}
+        canvas:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+            Color:
+                rgba: 0, 0, 0, 1
+            Rectangle:
+                pos: self.pos[0] + sp(10), self.pos[1] + sp(10)
+                size: self.width - sp(20), self.height - sp(20)
+        FloatLayout:
+            ShaderDisplay:
+                fs: root.fs
+                size_hint: 0.9, 0.9
+                pos_hint: {'x': 0.05, 'y': 0.05}
+        Label:
+            text: root.text
+
 <ShaderIndex>:
-    Label:
-        text: 'head'
+    orientation: 'horizontal'
+    Preview:
+        text: 'plasma'
+        fs: main.plasma_shader
+    Preview:
+        text: 'ripple'
+        fs: main.ripple_shader
 
 <ShaderManager>:
     Screen:
