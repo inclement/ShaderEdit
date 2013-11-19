@@ -1,6 +1,18 @@
 #:import main main
 #:import lexers pygments.lexers
 
+<ShaderIndex>:
+    Label:
+        text: 'head'
+
+<ShaderManager>:
+    Screen:
+        name: 'index'
+        ShaderIndex:
+    Screen:
+        name: 'editor'
+        ShaderDisplay:
+            
 
 <EditBox>:
     orientation: 'vertical'
@@ -20,7 +32,7 @@
         color: 1.0, 1.0, 1.0, 1.0
     CodeInput:
         id: ti
-        text: main.tunnel_shader
+        text: main.ripple_shader
         background_color: 1, 1, 1, root.slider_opacity
         lexer: lexers.GLShaderLexer()
         padding_x: sp(10)
@@ -41,11 +53,12 @@
     actionbar: actionbar
     ShaderActionBar:
         id: actionbar
+        editbox: editbox
     FloatLayout:
         ShaderDisplay:
             id: shaderdisplay
             size_hint: 1, 1
-            fs: main.tunnel_shader
+            fs: main.ripple_shader
         EditBox:
             id: editbox
             slider_opacity: slider.value
@@ -69,6 +82,10 @@
             with_previous: False
         ActionSeparator:
         ActionOverflow:
+        ActionButton:
+            text: 'Fullscreen'
+            on_press: root.editbox.go_fullscreen()
+        ActionSeparator:
         ActionButton:
             text: 'Save'
         ActionButton:
