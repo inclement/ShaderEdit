@@ -40,53 +40,15 @@ uniform vec2 mouse;
 with open('ripple.glsl') as fileh:
     ripple_shader = header + shader_uniforms + fileh.read()
 
-with open('tunnel.glsl') as fileh:
+with open('tunnel_fly.glsl') as fileh:
     tunnel_fly_shader = header + shader_uniforms + fileh.read()
 
-tunnel_shader = header + shader_uniforms + '''
+with open('tunnel.glsl') as fileh:
+    tunnel_shader = header + shader_uniforms + fileh.read()
 
-vec3 check(vec2 p, float s)
-{
-	return  vec3(clamp(ceil(sin(p.x/s)*sin(p.y/s))*s * 10., 0.1, 1.0));
-}
+with open('plasma.glsl') as fileh:
+    plasma_shader = header + shader_uniforms + fileh.read()
 
-void main( void ) {
-	
-	float speed = touch.x * 2.0;
-	vec2 position = ( gl_FragCoord.xy / resolution.xy ) + vec2(touch.x, touch.y) - 1.0;
-	vec3 col = vec3(1.0);
-	vec2 uv;
-	vec2 p = position * 2.0;
-	
-	p *= vec2( resolution.x/resolution.y, 1.0 );
-	p = vec2(cos(speed) * p.x + sin(speed) * p.y, -sin(speed) * p.x + cos(speed) *p.y);
-	
-	float y = length(p);
-
-	uv.x = p.x/y;
-	uv.y = 1.0 / abs(y) + time * 1.5;
-	col = check(uv, .10);
-	float t = pow(abs(y), 1.6);
-
-	gl_FragColor = vec4( col*t, 1.0 );
-}
-'''
-
-plasma_shader = header + shader_uniforms + '''
-
-void main(void)
-{
-   float x = gl_FragCoord.x;
-   float y = gl_FragCoord.y;
-   float mov0 = x+y+cos(sin(time)*2.)*100.+sin(x/100.)*1000.;
-   float mov1 = y / resolution.y / 0.2 + time;
-   float mov2 = x / resolution.x / 0.2;
-   float c1 = abs(sin(mov1+time)/2.+mov2/2.-mov1-mov2+time);
-   float c2 = abs(sin(c1+sin(mov0/1000.+time)+sin(y/40.+time)+sin((x+y)/100.)*3.));
-   float c3 = abs(sin(c2+cos(mov1+mov2+c2)+cos(mov2)+sin(x/1000.)));
-   gl_FragColor = vec4( c1,c2,c3,1.0);
-}
-'''
 
 class Preview(FloatLayout):
     fs = StringProperty(plasma_shader)
