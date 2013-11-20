@@ -15,6 +15,7 @@ from kivy.properties import (StringProperty, ListProperty, ObjectProperty,
 from kivy.metrics import sp
 from kivy.utils import platform
 from shaderwidget import ShaderWidget
+#from shadertree import ShaderWidget
 
 __version__ = '0.1'
 
@@ -35,6 +36,7 @@ uniform vec2 resolution;
 uniform float time;
 uniform vec2 touch;
 uniform vec2 mouse;
+uniform vec2 pos_coord_correction;
 '''
 
 with open('ripple.glsl') as fileh:
@@ -49,12 +51,42 @@ with open('tunnel.glsl') as fileh:
 with open('plasma.glsl') as fileh:
     plasma_shader = header + shader_uniforms + fileh.read()
 
+with open('gradient.glsl') as fileh:
+    gradient_shader = header + shader_uniforms + fileh.read()
+
+
+import re
+def posify_shader(shader):
+    shader = shader.replace('gl_FragCoord', 'fake_gl_FragCoord')
+
+    main_re = re.compile('void\s*main\s*\(\s*void\s*\)\s*{')
+    shader = re.sub(main_re,
+                    'void main(void)\n{\nvec2 fake_gl_FragCoord = gl_FragCoord.xy - pos_coord_correction;\n',
+                    shader)
+    return shader
 
 class Preview(FloatLayout):
     fs = StringProperty(plasma_shader)
     text = StringProperty('some text')
 
 class ShaderDisplay(ShaderWidget):
+    def on_fs(self, instance, value):
+        print 'shader is'
+        print '-'*50
+        print value
+        print '-'*50
+        value = posify_shader(value)
+        print 'new shader is'
+        print '-'*50
+        print value
+        print '-'*50
+
+        shader = self.canvas.shader
+        old_value = shader.fs
+        shader.fs = value
+        if not shader.success:
+            shader.fs = old_value
+            raise Exception('failed')
     def on_touch_down(self, touch):
         self.touch = touch
         self.on_touch_move(touch)
@@ -91,10 +123,18 @@ class ShaderActionBar(ActionBar):
     editbox = ObjectProperty()
 
 class ShaderManager(ScreenManager):
-    pass
+    def go_back(self, *args):
+        if self.current == 'editor':
+            self.current = 'index'
+        if self.current == 'fullscreen':
+            self.current = 'editor'
 
 class ShaderIndex(BoxLayout):
-    pass
+    def goto_display(self):
+        manager = App.get_running_app()
+        s = manager.screens('editor')
+        # s.children[0].shaderdisplay.fs
+        manager.current = 'editor'
 
 class ShaderApp(App):
     shaderdisplay = ObjectProperty()

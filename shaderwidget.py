@@ -70,4 +70,5 @@ class ShaderWidget(FloatLayout):
         self.canvas['resolution'] = list(map(float, self.size))
         # This is needed for the default vertex shader.
         self.canvas['projection_mat'] = Window.render_context['projection_mat']
+        self.canvas['pos_coord_correction'] = list(map(float, self.pos))
 
